@@ -1,7 +1,3 @@
-Sem problemas\! Aqui está o conteúdo completo para o seu arquivo `README.md`, já formatado para o GitHub, explicando as duas partes do trabalho que concluímos.
-
-Basta criar um arquivo chamado `README.md` na raiz do seu projeto e colar o seguinte conteúdo:
-
 # Trabalho Prático de Inteligência Artificial (2025/2)
 
 Este repositório contém as implementações dos trabalhos práticos da disciplina de IA (CEFET-MG). O projeto está dividido em partes independentes, abordando árvores de decisão manuais e algoritmos de aprendizado de máquina supervisionado.
