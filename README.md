@@ -45,7 +45,7 @@ python src/part1_tree_manual/tree_manual.py
 
 ### Documentação
 
-  * [Diagrama da Árvore (Mermaid)](https://www.google.com/search?q=src/part1_tree_manual/tree_diagram.md)
+  * [Diagrama da Árvore (Mermaid)](src/part1_tree_manual/tree_diagram.md)
 
 -----
 
