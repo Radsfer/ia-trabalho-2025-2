@@ -1,0 +1,4 @@
+Model,Accuracy,F1_Macro
+K-Nearest Neighbors (KNN),0.5700,0.5700
+Support Vector Machine (SVM),0.5987,0.5975
+Decision Tree Classifier,0.6013,0.6009
