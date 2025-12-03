@@ -47,6 +47,8 @@ python src/part1_tree_manual/tree_manual.py
 
   * [Diagrama da Árvore (Mermaid)](src/part1_tree_manual/tree_diagram.md)
 
+  ![imagem](reports/figs/tree-1.svg)
+
 -----
 
 ## 🤖 Parte 2: Aprendizado Supervisionado (Olist)
@@ -99,8 +101,10 @@ ia-trabalho-2025-2/
 │   ├── raw/            # Arquivos CSV originais (Olist)
 │   └── processed/      # Dados processados (.npy) para treino
 ├── reports/
-│   ├── metrics.csv     # Tabela comparativa de resultados
-│   └── metrics_details.txt # Relatórios detalhados (Matriz de Confusão)
+|   ├── figs # figuras geradas pro relatório/readme 
+|   ├── part2_ml
+│     ├── metrics.csv     # Tabela comparativa de resultados
+│     └── metrics_details.txt # Relatórios detalhados (Matriz de Confusão)
 ├── src/
 │   ├── common/         # Utilitários de sistema e reprodutibilidade (Seeds)
 │   ├── part1_tree_manual/
