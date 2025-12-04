@@ -11,24 +11,14 @@ Este repositório contém as implementações dos trabalhos práticos da discipl
 ### Pré-requisitos
 * Python 3.10 ou superior
 * Gerenciador de pacotes `pip`
+* `make` para automação (nativo no Linux/WSL)
 
-### Instalação
-1. Clone o repositório e navegue até a pasta raiz.
-2. Crie e ative um ambiente virtual (recomendado):
-```bash
-   # Windows (PowerShell)
-   python -m venv .venv
-   .venv\Scripts\Activate.ps1
-   
-   # Linux/Mac
-   python3 -m venv .venv
-   source .venv/bin/activate
-````
+### Instalação Rápida (via Makefile)
+No terminal (Linux/WSL), execute:
 
-3.  Instale as dependências:
 ```bash
-    pip install -r requirements.txt
- ```
+make setup
+```
 
 -----
 
@@ -44,7 +34,7 @@ Implementação de uma árvore de decisão "hard-coded" (sem bibliotecas de ML) 
 Para rodar a árvore interativa:
 
 ```bash
-python src/part1_tree_manual/tree_manual.py
+make part1
 ```
 
 ### Documentação
@@ -75,25 +65,52 @@ O dataset original apresenta um desbalanceamento severo (\~92% dos pedidos são 
 
 Siga a ordem abaixo para reproduzir os resultados:
 
-1.  **Pré-processamento:**
-    Gera os arquivos de treino e teste balanceados em `data/processed/`.
-
-    ```bash
-    python src/part2_ml/preprocess.py
-    ```
-
-2.  **Treinamento e Avaliação:**
-    Cada script treina um modelo específico e salva as métricas em `reports/metrics.csv`.
-
-    ```bash
-    python src/part2_ml/train_knn.py
-    python src/part2_ml/train_svm.py
-    python src/part2_ml/train_tree.py
-    ```
+```bash
+make part2
+# Executa preprocessamento + treinamento
+```
 
 ### Resultados Obtidos
 
 Os modelos apresentaram uma **Acurácia média de \~60%** após o balanceamento. Embora a acurácia global tenha diminuído em comparação ao modelo desbalanceado (que apenas "chutava" a classe majoritária), o **Recall (Revocação) para atrasos subiu significativamente**, tornando os modelos funcionalmente úteis para detectar problemas logísticos.
+
+-----
+## 🧬 Parte 3: Algoritmo Genético (Otimização)
+
+Implementação de um Algoritmo Genético (AG) **do zero** (sem bibliotecas de GA) para otimizar os hiperparâmetros do SVM da Parte 2.
+
+### Definição do Problema
+
+O objetivo é encontrar a melhor combinação de `C` e `Gamma` para maximizar a acurácia do SVM.
+
+  * **Gene 1 (C):** Penalidade de erro (Busca no intervalo `[0.1, 100]`).
+  * **Gene 2 (Gamma):** Coeficiente do Kernel RBF (Busca no intervalo `[0.0001, 1.0]`).
+
+### Detalhes da Implementação
+
+  * **Codificação:** Real-valued (Vetor de float).
+  * **Fitness:** Acurácia do SVM treinado em uma amostra balanceada de 2.000 instâncias (para eficiência).
+  * **Operadores Genéticos:**
+      * **Seleção:** Torneio.
+      * **Crossover:** Aritmético (Média ponderada).
+      * **Mutação:** Gaussiana (Adição de ruído controlado).
+      * **Elitismo:** Preservação dos 2 melhores indivíduos (Top-2).
+
+### Execução
+
+```bash
+make part3
+# ou: python src/part3_ga/run_tuning.py
+```
+
+### Análise dos Resultados
+
+O algoritmo demonstrou convergência rápida (geralmente na 3ª geração) para:
+
+  * **Gamma ≈ 0.0001** (Limite inferior).
+  * **Acurácia ≈ 59-60%**.
+
+**Conclusão:** O AG "descobriu" que, devido ao ruído nos dados do Olist, a melhor estratégia é simplificar a fronteira de decisão (Gamma baixo -\> modelo quase linear), evitando *overfitting*. A estagnação em 60% confirma que este é o limite preditivo intrínseco das features disponíveis.
 
 -----
 
@@ -107,19 +124,24 @@ ia-trabalho-2025-2/
 ├── reports/
 |   ├── figs # figuras geradas pro relatório/readme 
 |   └── part2_ml
-│     ├── metrics.csv     # Tabela comparativa de resultados
-│     └── metrics_details.txt # Relatórios detalhados (Matriz de Confusão)
+│     ├── metrics.csv     # Tabela comparativa de resultados parte 2
+│     └── metrics_details.txt # Relatórios detalhados (Matriz de Confusão) da parte 2
 ├── src/
 │   ├── common/         # Utilitários de sistema e reprodutibilidade (Seeds)
 │   ├── part1_tree_manual/
 │   │   ├── tree_manual.py
 │   │   └── tree_diagram.md
-│   └── part2_ml/
-│       ├── preprocess.py
-│       ├── train_knn.py
-│       ├── train_svm.py
-│       ├── train_tree.py
-│       └── utils_metrics.py
+│   ├── part2_ml/
+│   │   ├── preprocess.py
+│   │   ├── train_knn.py
+│   │   ├── train_svm.py
+│   │   ├── train_tree.py
+│   │   └── utils_metrics.py
+│   └── part3_ga/
+│       ├── ga.py
+│       └── run_tuning.py
+├── LICENSE
+├── Makefile
 ├── requirements.txt
 └── README.md
 ```

@@ -7,23 +7,29 @@ PYTHON := $(VENV)/bin/python3
 PIP := $(VENV)/bin/pip
 PYTEST := $(VENV)/bin/pytest
 
-# Pastas (Ajustado aqui!)
+# Pastas
 SRC := src
 DATA_PROC := data/processed
-REPORTS := reports/part2_ml
+# Define pastas de relatório separadas para limpeza precisa
+REPORTS_ML := reports/part2_ml
+REPORTS_GA := reports/part3_ga
 
 # --- Comandos (Targets) ---
-.PHONY: help setup install part1 part2 preprocess train test clean
+.PHONY: help setup install part1 part2 part3 preprocess train test \
+        clean clean-data clean-reports clean-py
 
 # Ajuda
 help:
 	@echo "🤖 Automação do Projeto de IA"
 	@echo "Uso:"
-	@echo "  make setup      - Cria o ambiente virtual e instala dependências"
-	@echo "  make part1      - Executa a Árvore Manual"
-	@echo "  make part2      - Roda o pipeline de ML (Preprocess + Treino)"
-	@echo "  make test       - Executa os testes unitários"
-	@echo "  make clean      - Limpa arquivos gerados em $(REPORTS) e $(DATA_PROC)"
+	@echo "  make part2         - Roda ML (Preprocess + Treino)"
+	@echo "  make part3         - Roda Otimização AG"
+	@echo "  make test          - Roda os testes"
+	@echo "  --- Limpeza ---"
+	@echo "  make clean         - Limpa TUDO"
+	@echo "  make clean-data    - Apaga apenas os .npy (dados processados)"
+	@echo "  make clean-reports - Apaga apenas os CSVs e TXTs de resultados"
+	@echo "  make clean-py      - Apaga apenas caches (__pycache__)"
 
 # 1. Configuração
 setup:
@@ -33,7 +39,7 @@ setup:
 
 install: setup
 
-# 2. Execução
+# 2. Execuções Principais
 part1:
 	@echo "🚀 Executando Parte 1..."
 	$(PYTHON) $(SRC)/part1_tree_manual/tree_manual.py
@@ -50,22 +56,37 @@ train:
 
 part2: preprocess train
 
-# 3. Algoritmo Genético
 part3:
-	@echo "🧬 Rodando Otimização de Hiperparâmetros (AG)..."
+	@echo "🧬 Rodando Otimização (AG)..."
 	$(PYTHON) $(SRC)/part3_ga/run_tuning.py
 
-# 4. Testes
+part4:
+	@echo "🐝 Rodando PSO..."
+	$(PYTHON) $(SRC)/part4_swarm_immune/run_meta.py --algo pso
+	@echo "🦠 Rodando Sistema Imune..."
+	$(PYTHON) $(SRC)/part4_swarm_immune/run_meta.py --algo immune
+
+# 3. Testes
 test:
 	@echo "🧪 Rodando testes..."
 	PYTHONPATH=. $(PYTEST) tests/ -v
 
-# 5. Limpeza (Corrigido para a tua pasta)
-clean:
-	@echo "🗑️ Limpando arquivos..."
+# 4. Limpeza Modular 
+
+clean-data:
+	@echo "🗑️ Limpando apenas dados processados..."
 	rm -rf $(DATA_PROC)/*.npy
-	rm -rf $(REPORTS)/*.csv $(REPORTS)/*.txt
-	rm -rf __pycache__
-	rm -rf .pytest_cache
+
+clean-reports:
+	@echo "🗑️ Limpando apenas relatórios (ML e AG)..."
+	rm -rf $(REPORTS_ML)/*.csv $(REPORTS_ML)/*.txt
+	rm -rf $(REPORTS_GA)/*.csv $(REPORTS_GA)/*.txt
+
+clean-py:
+	@echo "🗑️ Limpando cache do Python..."
+	rm -rf __pycache__ .pytest_cache
 	find . -type d -name "__pycache__" -exec rm -rf {} +
-	@echo "✨ Limpeza concluída!"
+
+# O 'clean' geral chama todos os sub-cleans
+clean: clean-data clean-reports clean-py
+	@echo "✨ Limpeza COMPLETA concluída!"

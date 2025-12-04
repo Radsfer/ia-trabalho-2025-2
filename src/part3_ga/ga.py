@@ -1,13 +1,12 @@
 import random
-import numpy as np
 import copy
 
 class GeneticAlgorithm:
     def __init__(self, pop_size, mutation_rate, crossover_rate, elitism_count, fitness_func, gene_bounds):
         """
-        :param pop_size: Tamanho da população (ex: 10 ou 20)
-        :param fitness_func: Função que recebe um indivíduo e retorna uma nota (float)
-        :param gene_bounds: Lista de tuplas com min/max para cada gene. Ex: [(0.1, 100), (0.001, 1)]
+        :param pop_size: Tamanho da população
+        :param fitness_func: Função que recebe indivíduo e retorna fitness (float)
+        :param gene_bounds: Lista de tuplas com min/max para cada gene
         """
         self.pop_size = pop_size
         self.mutation_rate = mutation_rate
@@ -16,7 +15,7 @@ class GeneticAlgorithm:
         self.fitness_func = fitness_func
         self.bounds = gene_bounds
         
-        # Inicializa população aleatória dentro dos limites
+        # Inicializa população aleatória
         self.population = []
         for _ in range(pop_size):
             ind = []
@@ -26,40 +25,40 @@ class GeneticAlgorithm:
             
         self.best_solution = None
         self.best_fitness = -float('inf')
-        self.history = []
+        self.history = [] # Aqui guardamos o melhor fitness de cada geração
 
     def evaluate(self):
-        """Calcula o fitness de toda a população e ordena."""
+        """Calcula fitness e ordena a população."""
         pop_with_fitness = []
         for ind in self.population:
             fit = self.fitness_func(ind)
             pop_with_fitness.append((ind, fit))
             
-            # Atualiza o melhor global
             if fit > self.best_fitness:
                 self.best_fitness = fit
                 self.best_solution = ind
         
-        # Ordena do maior fitness para o menor
+        # Ordena do maior para o menor
         pop_with_fitness.sort(key=lambda x: x[1], reverse=True)
         
-        # Guarda apenas os indivíduos ordenados na população
+        # Atualiza população ordenada e histórico
         self.population = [p[0] for p in pop_with_fitness]
-        self.history.append(self.best_fitness)
         
-        return self.best_fitness
+        # Guarda o melhor desta geração no histórico
+        current_best_val = pop_with_fitness[0][1]
+        self.history.append(current_best_val)
+        
+        return current_best_val
 
     def select(self):
-        """Torneio: Pega 3 aleatórios e escolhe o melhor."""
+        """Torneio simples."""
         candidates = random.sample(self.population, 3)
-        # Como já avaliamos antes, poderíamos otimizar, mas recalculando simplifica o código didático
-        # Para ser eficiente, aqui assumimos que self.population já está ordenado pelo evaluate()
-        # Mas para o torneio ser justo, pegamos a fitness function de novo ou confiamos na sorte.
-        # Vamos fazer um torneio simples comparando fitness recalculado (ou cacheado se fosse complexo).
-        
+        # Como a população já está ordenada pelo evaluate(), poderíamos pegar o índice menor.
+        # Mas para garantir, recalculamos ou comparamos direto se tivéssemos o fitness salvo.
+        # Simplificação: O primeiro da lista ordenada é o melhor? Nem sempre no random.sample.
+        # Vamos reavaliar para ser seguro (custo baixo aqui)
         best = candidates[0]
         best_f = self.fitness_func(best)
-        
         for c in candidates[1:]:
             f = self.fitness_func(c)
             if f > best_f:
@@ -68,28 +67,21 @@ class GeneticAlgorithm:
         return best
 
     def crossover(self, p1, p2):
-        """Crossover Aritmético (Média) ou Ponto Único."""
         if random.random() < self.crossover_rate:
-            # Vamos fazer um crossover simples: média ponderada
             alpha = random.random()
             child = []
             for i in range(len(p1)):
                 val = alpha * p1[i] + (1 - alpha) * p2[i]
                 child.append(val)
             return child
-        else:
-            return p1[:] # Retorna cópia do pai 1 se não cruzar
+        return p1[:]
 
     def mutate(self, ind):
-        """Mutação Gaussiana: adiciona um pequeno ruído."""
         for i in range(len(ind)):
             if random.random() < self.mutation_rate:
-                # Ruído baseado na escala do gene
                 r_range = self.bounds[i][1] - self.bounds[i][0]
-                noise = random.gauss(0, r_range * 0.1) # 10% da escala
+                noise = random.gauss(0, r_range * 0.1)
                 ind[i] += noise
-                
-                # Clamp (Garante que não foge dos limites)
                 ind[i] = max(self.bounds[i][0], min(ind[i], self.bounds[i][1]))
         return ind
 
@@ -97,15 +89,14 @@ class GeneticAlgorithm:
         print(f"--- Iniciando AG ({generations} gerações) ---")
         for g in range(generations):
             current_best = self.evaluate()
-            print(f"Gen {g+1}: Melhor Fitness = {current_best:.4f} | Genes: {[round(x,4) for x in self.best_solution]}")
+            print(f"Gen {g+1}: Melhor Fitness = {current_best:.4f}")
             
             new_pop = []
-            
-            # Elitismo: Mantém os melhores intocados
+            # Elitismo
             for i in range(self.elitism_count):
                 new_pop.append(self.population[i])
             
-            # Gera o resto da população
+            # Gera o resto
             while len(new_pop) < self.pop_size:
                 p1 = self.select()
                 p2 = self.select()
@@ -115,4 +106,5 @@ class GeneticAlgorithm:
             
             self.population = new_pop
             
-        return self.best_solution, self.best_fitness
+        # AGORA RETORNA O HISTÓRICO TAMBÉM
+        return self.best_solution, self.best_fitness, self.history
