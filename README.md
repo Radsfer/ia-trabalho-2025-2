@@ -1,4 +1,8 @@
-# Trabalho Prático de Inteligência Artificial (2025/2)
+<p align="center"> 
+  <img src="reports/figs/logo_azul.png" alt="CEFET-MG" width="100px" height="100px">
+</p>
+
+<h1 align="center"> Trabalho Prático de Inteligência Artificial (2025/2) </h1>
 
 Este repositório contém as implementações dos trabalhos práticos da disciplina de IA (CEFET-MG). O projeto está dividido em partes independentes, abordando árvores de decisão manuais e algoritmos de aprendizado de máquina supervisionado.
 
@@ -102,7 +106,7 @@ ia-trabalho-2025-2/
 │   └── processed/      # Dados processados (.npy) para treino
 ├── reports/
 |   ├── figs # figuras geradas pro relatório/readme 
-|   ├── part2_ml
+|   └── part2_ml
 │     ├── metrics.csv     # Tabela comparativa de resultados
 │     └── metrics_details.txt # Relatórios detalhados (Matriz de Confusão)
 ├── src/
