@@ -2,7 +2,6 @@ import os
 import random
 import numpy as np
 
-# Defina a semente global aqui
 DEFAULT_SEED = 42
 
 def set_seeds(seed=DEFAULT_SEED):
