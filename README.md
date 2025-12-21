@@ -121,20 +121,20 @@ O gráfico de evolução do fitness demonstra que o Algoritmo Genético convergi
 **Conclusão:** O AG "descobriu" que, devido ao ruído nos dados do Olist, a melhor estratégia é simplificar a fronteira de decisão (Gamma baixo -> modelo quase linear), evitando *overfitting*.
 
 -----
-## Parte 4: Computação Bio-inspirada (Enxame e Sistemas Imunes)
+## Parte 4: Computacao Bio-inspirada (Enxame e Sistemas Imunes)
 
-Comparativo entre **Inteligência de Enxame (PSO)** e **Sistemas Imunes Artificiais (CLONALG)** para a otimização de hiperparâmetros de um modelo Random Forest.
+Comparativo entre **Inteligencia de Enxame (PSO)** e **Sistemas Imunes Artificiais (CLONALG)** para a otimizacao dos mesmos hiperparametros do SVM da Parte 3, permitindo uma comparacao direta entre as tecnicas de otimizacao.
 
-### Definição do Problema
-Otimizar os hiperparâmetros da Random Forest para maximizar a acurácia na previsão de atrasos:
-* **n_estimators:** Número de árvores (Busca: `[10, 100]`).
-* **max_depth:** Profundidade máxima (Busca: `[2, 20]`).
+### Definicao do Problema
+Otimizar os hiperparametros do SVM (mesmo problema da Parte 3) para comparar a eficiencia dos algoritmos:
+* **C:** Penalidade de erro (Busca: `[0.1, 100]`).
+* **Gamma:** Coeficiente do Kernel RBF (Busca: `[0.0001, 1.0]`).
 
 ### Algoritmos Implementados
-1.  **PSO (Particle Swarm Optimization):** Otimização baseada no movimento de partículas que compartilham a melhor posição global (*gBest*) e lembram sua melhor posição individual (*pBest*).
-2.  **CLONALG (Clonal Selection Algorithm):** Baseado na teoria da seleção clonal, utiliza taxas de mutação inversamente proporcionais à afinidade (fitness) e inserção de anticorpos aleatórios para diversidade.
+1.  **PSO (Particle Swarm Optimization):** Otimizacao baseada no movimento de particulas que compartilham a melhor posicao global (*gBest*) e lembram sua melhor posicao individual (*pBest*).
+2.  **CLONALG (Clonal Selection Algorithm):** Baseado na teoria da selecao clonal, utiliza taxas de mutacao inversamente proporcionais a afinidade (fitness) e insercao de anticorpos aleatorios para diversidade.
 
-### Execução
+### Execucao
 
 ```bash
 make part4
@@ -145,28 +145,30 @@ make part4
 
 ### Resultados e Comparativo
 
-Ambos os algoritmos superaram os benchmarks iniciais (KNN/SVM ~60%), convergindo para soluções robustas com Acurácia de Teste superior à de Treino, indicando excelente generalização.
+Tabela comparativa das tecnicas de otimizacao aplicadas ao SVM:
 
-| Algoritmo | Melhores Params | Acurácia (CV Treino) | Acurácia (Teste Cego) |
-| --- | --- | --- | --- |
-| **PSO (Enxame)** | Trees: 55, Depth: 16 | 61.79% | **62.51%** |
-| **CLONALG (Imune)** | Trees: 64, Depth: 16 | 61.64% | **62.77%** |
+| Algoritmo | C | Gamma | Acuracia (Validacao) | Acuracia (Teste) |
+| --- | --- | --- | --- | --- |
+| **AG (Parte 3)** | 63.98 | 0.0001 | 56.00% | - |
+| **PSO** | 50.24 | 0.7882 | 55.00% | 55.42% |
+| **CLONALG** | 55.52 | 0.0560 | 56.25% | **57.31%** |
 
-### Análise dos Resultados
+### Analise dos Resultados
 
-Ambos os algoritmos, partindo de populações aleatórias distintas, convergiram para a mesma profundidade de árvore (`max_depth=16`), indicando forte evidência de que este é o ponto ótimo de complexidade para o modelo. Árvores mais rasas sofrem de underfitting, enquanto árvores mais profundas tendem ao overfitting.
+O CLONALG obteve o melhor desempenho entre as meta-heuristicas, encontrando um valor de Gamma intermediario que equilibra a complexidade do modelo. O PSO convergiu rapidamente mas ficou preso em um gamma alto, resultando em uma fronteira de decisao mais complexa.
 
-**Comparativo PSO vs CLONALG:**
-* **PSO:** Busca eficiente, estabilizando rapidamente em torno de 55 estimadores.
-* **CLONALG:** Devido aos mecanismos de hipermutação e inserção de anticorpos aleatórios, explorou maior diversidade de soluções, optando por um ensemble ligeiramente maior (64 estimadores) com vantagem marginal na acurácia (+0.26%).
+**Comparativo das Tecnicas:**
+* **AG:** Convergencia rapida para gamma baixo (~0.0001), modelo quase linear.
+* **PSO:** Estabilizou com gamma alto (~0.79), modelo mais complexo.
+* **CLONALG:** Encontrou gamma intermediario (~0.056), melhor generalizacao.
 
-**Conclusão:** A estabilização da acurácia em torno de 63% (mesmo após otimização intensiva) corrobora a análise exploratória inicial: o problema possui um erro irredutível alto. A ausência de variáveis logísticas em tempo real (trânsito, clima, greves) impede que modelos baseados apenas em características estáticas do pedido atinjam acurácias muito superiores.
+**Conclusao:** O mecanismo de hipermutacao do CLONALG permitiu maior exploracao do espaco de busca, evitando a convergencia prematura observada no PSO. A acuracia em torno de 55-57% confirma o limite preditivo do dataset com as features disponiveis.
 
-### Gráficos de Convergência
+### Graficos de Convergencia
 
 <p align="center">
-<img src="reports/figs/pso_convergence.png" alt="Convergência PSO" width="45%">
-<img src="reports/figs/immune_convergence.png" alt="Convergência Imune" width="45%">
+<img src="reports/figs/pso_convergence.png" alt="Convergencia PSO" width="45%">
+<img src="reports/figs/immune_convergence.png" alt="Convergencia CLONALG" width="45%">
 </p>
 
 -----

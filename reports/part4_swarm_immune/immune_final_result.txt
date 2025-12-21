@@ -1,6 +1,6 @@
 
-    === RESULTADOS CLONALG (IMUNE) ===
-    Melhores Params: n_estimators=64, max_depth=16
-    Acurácia Treino (CV): 0.6164
-    Acurácia Teste:       0.6277
+    === RESULTADOS CLONALG (OTIMIZANDO SVM) ===
+    Melhores Params: C=55.5198, gamma=0.055997
+    Acuracia Treino (Validacao): 0.5625
+    Acuracia Teste (Cego): 0.5731
     
