@@ -173,6 +173,34 @@ O CLONALG obteve o melhor desempenho entre as meta-heuristicas, encontrando um v
 
 -----
 
+## Testes Unitarios
+
+O projeto conta com uma suite de testes automatizados para garantir a corretude dos algoritmos implementados. Os testes utilizam o framework **pytest**.
+
+### Execucao
+
+```bash
+make test
+```
+
+### Cobertura dos Testes
+
+| Arquivo | Descricao | Qtd. Testes |
+| --- | --- | --- |
+| `test_models.py` | Validacao dos dados processados e metricas da Parte 2 | 5 |
+| `test_ga.py` | Testes do Algoritmo Genetico (Parte 3) | 4 |
+| `test_swarm.py` | Testes do PSO e CLONALG (Parte 4) | 15 |
+
+**Total: 24 testes**
+
+### Principais Verificacoes
+
+* **Parte 2 (ML):** Existencia dos arquivos processados, consistencia das dimensoes dos dados, geracao de metricas e sanidade da acuracia.
+* **Parte 3 (AG):** Inicializacao correta, preservacao do elitismo, respeito aos bounds nas mutacoes e capacidade de otimizacao.
+* **Parte 4 (PSO/CLONALG):** Inicializacao de particulas/anticorpos dentro dos limites, funcionamento da mutacao, convergencia em problemas simples, estrutura do historico e preservacao do melhor individuo (elitismo).
+
+-----
+
 ## Estrutura do Projeto
 
 ```

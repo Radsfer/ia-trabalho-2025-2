@@ -106,7 +106,7 @@ def test_optimization_capability():
         gene_bounds=[(0, 100)]
     )
     
-    best_ind, best_fit = ga.run(generations=20)
+    best_ind, best_fit, _ = ga.run(generations=20)
     
     # Aceitamos qualquer coisa acima de 95 (o ótimo é 100)
     assert best_fit > 95, f"O AG falhou em otimizar um problema simples. Deu {best_fit}"
