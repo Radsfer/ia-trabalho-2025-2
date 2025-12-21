@@ -1,0 +1,6 @@
+
+    === RESULTADOS CLONALG (IMUNE) ===
+    Melhores Params: n_estimators=64, max_depth=16
+    Acurácia Treino (CV): 0.6164
+    Acurácia Teste:       0.6277
+    

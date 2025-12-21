@@ -1,0 +1,9 @@
+
+    === RESULTADOS PSO ===
+    Melhores Parâmetros: n_estimators=55, max_depth=16
+    Acurácia no Treino (CV): 0.6179
+    Acurácia no Teste (Cego): 0.6251
+    
+    Diferença (Treino - Teste): -0.0072
+    (Se a diferença for < 0.05, não há overfitting severo)
+    

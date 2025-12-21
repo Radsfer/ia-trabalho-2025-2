@@ -16,7 +16,7 @@ from src.common.utils_io import ensure_folder
 RAW_PATH = "data/raw/"
 PROCESSED_PATH = "data/processed/"
 
-# MUDANÇA: Não vamos fixar tamanho, vamos fixar o equilíbrio
+# MUDANÇA: fixar o equilíbrio
 def load_data():
     print(">>> Carregando datasets brutos...")
     try:

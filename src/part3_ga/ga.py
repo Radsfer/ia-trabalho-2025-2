@@ -53,9 +53,6 @@ class GeneticAlgorithm:
     def select(self):
         """Torneio simples."""
         candidates = random.sample(self.population, 3)
-        # Como a população já está ordenada pelo evaluate(), poderíamos pegar o índice menor.
-        # Mas para garantir, recalculamos ou comparamos direto se tivéssemos o fitness salvo.
-        # Simplificação: O primeiro da lista ordenada é o melhor? Nem sempre no random.sample.
         # Vamos reavaliar para ser seguro (custo baixo aqui)
         best = candidates[0]
         best_f = self.fitness_func(best)
