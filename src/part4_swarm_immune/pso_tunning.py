@@ -158,9 +158,9 @@ if __name__ == "__main__":
     plt.ylabel('Acurácia (CV)')
     plt.legend()
     plt.grid(True)
-    img_path = os.path.join(REPORTS_PATH, "pso_convergence.png")
+    img_path = "reports/figs/pso_convergence.png"
     plt.savefig(img_path)
-    print(f"📊 Gráfico salvo em: {img_path}")
+    print(f"Grafico salvo em: {img_path}")
 
     # 6.3 Relatório Final
     report = f"""

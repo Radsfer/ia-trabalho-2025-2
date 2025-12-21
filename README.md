@@ -72,7 +72,11 @@ make part2
 
 ### Resultados Obtidos
 
-Os modelos apresentaram uma **Acurácia média de \~60%** após o balanceamento. Embora a acurácia global tenha diminuído em comparação ao modelo desbalanceado (que apenas "chutava" a classe majoritária), o **Recall (Revocação) para atrasos subiu significativamente**, tornando os modelos funcionalmente úteis para detectar problemas logísticos.
+Os modelos apresentaram uma **Acurácia média de ~60%** após o balanceamento. Embora a acurácia global tenha diminuído em comparação ao modelo desbalanceado (que apenas "chutava" a classe majoritária), o **Recall (Revocação) para atrasos subiu significativamente**, tornando os modelos funcionalmente úteis para detectar problemas logísticos.
+
+![Comparativo ML](reports/figs/part2_comparison.png)
+
+O gráfico acima compara o desempenho dos três algoritmos testados. Nota-se que o SVM e a Árvore de Decisão tiveram desempenho superior ao KNN, lidando melhor com a complexidade dos dados.
 
 -----
 ## Parte 3: Algoritmo Genético (Otimização)
@@ -110,7 +114,11 @@ O algoritmo demonstrou convergência rápida (geralmente na 3ª geração) para:
   * **Gamma ≈ 0.0001** (Limite inferior).
   * **Acurácia ≈ 59-60%**.
 
-**Conclusão:** O AG "descobriu" que, devido ao ruído nos dados do Olist, a melhor estratégia é simplificar a fronteira de decisão (Gamma baixo -\> modelo quase linear), evitando *overfitting*. A estagnação em 60% confirma que este é o limite preditivo intrínseco das features disponíveis.
+![Convergência AG](reports/figs/part3_convergence.png)
+
+O gráfico de evolução do fitness demonstra que o Algoritmo Genético convergiu rapidamente para o ótimo local, estagnando em seguida. Isso reforça a hipótese de que este é o limite preditivo intrínseco do dataset.
+
+**Conclusão:** O AG "descobriu" que, devido ao ruído nos dados do Olist, a melhor estratégia é simplificar a fronteira de decisão (Gamma baixo -> modelo quase linear), evitando *overfitting*.
 
 -----
 ## Parte 4: Computação Bio-inspirada (Enxame e Sistemas Imunes)
@@ -135,6 +143,15 @@ make part4
 # python src/part4_swarm_immune/immune_tuning.py
 ```
 
+### Resultados e Comparativo
+
+Ambos os algoritmos superaram os benchmarks iniciais (KNN/SVM ~60%), convergindo para soluções robustas com Acurácia de Teste superior à de Treino, indicando excelente generalização.
+
+| Algoritmo | Melhores Params | Acurácia (CV Treino) | Acurácia (Teste Cego) |
+| --- | --- | --- | --- |
+| **PSO (Enxame)** | Trees: 55, Depth: 16 | 61.79% | **62.51%** |
+| **CLONALG (Imune)** | Trees: 64, Depth: 16 | 61.64% | **62.77%** |
+
 ### Análise dos Resultados
 
 Ambos os algoritmos, partindo de populações aleatórias distintas, convergiram para a mesma profundidade de árvore (`max_depth=16`), indicando forte evidência de que este é o ponto ótimo de complexidade para o modelo. Árvores mais rasas sofrem de underfitting, enquanto árvores mais profundas tendem ao overfitting.
@@ -143,9 +160,14 @@ Ambos os algoritmos, partindo de populações aleatórias distintas, convergiram
 * **PSO:** Busca eficiente, estabilizando rapidamente em torno de 55 estimadores.
 * **CLONALG:** Devido aos mecanismos de hipermutação e inserção de anticorpos aleatórios, explorou maior diversidade de soluções, optando por um ensemble ligeiramente maior (64 estimadores) com vantagem marginal na acurácia (+0.26%).
 
-Os modelos finais apresentaram Acurácia de Teste superior à de Treino (~62.5% vs ~61.7%), comprovando que os algoritmos bio-inspirados evitaram mínimos locais de overfitting e encontraram soluções generalizáveis. Ambos superaram a performance dos modelos manuais da Parte 2 (que rondavam os 60%).
-
 **Conclusão:** A estabilização da acurácia em torno de 63% (mesmo após otimização intensiva) corrobora a análise exploratória inicial: o problema possui um erro irredutível alto. A ausência de variáveis logísticas em tempo real (trânsito, clima, greves) impede que modelos baseados apenas em características estáticas do pedido atinjam acurácias muito superiores.
+
+### Gráficos de Convergência
+
+<p align="center">
+<img src="reports/figs/pso_convergence.png" alt="Convergência PSO" width="45%">
+<img src="reports/figs/immune_convergence.png" alt="Convergência Imune" width="45%">
+</p>
 
 -----
 

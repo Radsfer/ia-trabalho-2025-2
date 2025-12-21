@@ -191,7 +191,8 @@ if __name__ == "__main__":
     plt.xlabel('Geração')
     plt.ylabel('Acurácia (CV)')
     plt.grid(True)
-    plt.savefig(os.path.join(REPORTS_PATH, "immune_convergence.png"))
+    plt.savefig("reports/figs/immune_convergence.png")
+    print("Grafico salvo em: reports/figs/immune_convergence.png")
     
     # 3. Resumo
     report = f"""

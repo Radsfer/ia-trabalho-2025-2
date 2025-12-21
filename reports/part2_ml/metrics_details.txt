@@ -61,3 +61,66 @@ Matriz Confusão:
 [[ 995  748]
  [ 642 1101]]
 
+
+============================================================
+MODELO: K-Nearest Neighbors (KNN)
+============================================================
+Acurácia: 0.5700
+F1-Macro: 0.5700
+
+Relatório:
+              precision    recall  f1-score   support
+
+           0       0.57      0.56      0.57      1743
+           1       0.57      0.58      0.57      1743
+
+    accuracy                           0.57      3486
+   macro avg       0.57      0.57      0.57      3486
+weighted avg       0.57      0.57      0.57      3486
+
+Matriz Confusão:
+[[ 983  760]
+ [ 739 1004]]
+
+
+============================================================
+MODELO: Support Vector Machine (SVM)
+============================================================
+Acurácia: 0.5987
+F1-Macro: 0.5975
+
+Relatório:
+              precision    recall  f1-score   support
+
+           0       0.59      0.65      0.62      1743
+           1       0.61      0.54      0.58      1743
+
+    accuracy                           0.60      3486
+   macro avg       0.60      0.60      0.60      3486
+weighted avg       0.60      0.60      0.60      3486
+
+Matriz Confusão:
+[[1138  605]
+ [ 794  949]]
+
+
+============================================================
+MODELO: Decision Tree Classifier
+============================================================
+Acurácia: 0.6013
+F1-Macro: 0.6009
+
+Relatório:
+              precision    recall  f1-score   support
+
+           0       0.61      0.57      0.59      1743
+           1       0.60      0.63      0.61      1743
+
+    accuracy                           0.60      3486
+   macro avg       0.60      0.60      0.60      3486
+weighted avg       0.60      0.60      0.60      3486
+
+Matriz Confusão:
+[[ 995  748]
+ [ 642 1101]]
+

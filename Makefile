@@ -16,7 +16,7 @@ REPORTS_GA := reports/part3_ga
 REPORTS_SWARM := reports/part4_swarm_immune
 
 # --- Comandos (Targets) ---
-.PHONY: help setup install part1 part2 part3 part4 preprocess train test \
+.PHONY: help setup install part1 part2 part3 part4 preprocess train test plots \
         clean clean-data clean-reports clean-py
 
 # Ajuda
@@ -28,6 +28,7 @@ help:
 	@echo "  make part2         - Roda ML (Preprocess + Treino)"
 	@echo "  make part3         - Roda Otimizacao AG"
 	@echo "  make part4         - Roda PSO e Sistema Imune"
+	@echo "  make plots         - Gera graficos do relatorio"
 	@echo "  make test          - Roda os testes"
 	@echo "  --- Limpeza ---"
 	@echo "  make clean         - Limpa TUDO"
@@ -70,12 +71,17 @@ part4:
 	@echo "Rodando Sistema Imune..."
 	$(PYTHON) $(SRC)/part4_swarm_immune/immune_tuning.py
 
-# 3. Testes
+# 3. Graficos
+plots:
+	@echo "Gerando graficos do relatorio..."
+	$(PYTHON) $(SRC)/common/utils_plots.py
+
+# 4. Testes
 test:
 	@echo "Rodando testes..."
 	PYTHONPATH=. $(PYTEST) tests/ -v
 
-# 4. Limpeza Modular
+# 5. Limpeza Modular
 
 clean-data:
 	@echo "Limpando dados processados..."
