@@ -13,7 +13,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from src.common.seeds import set_seeds, DEFAULT_SEED
 
 PROCESSED_PATH = "data/processed/"
-REPORTS_PATH = "reports/part4_swarm/" # Salvando no mesmo lugar para facilitar
+REPORTS_PATH = "reports/part4_swarm_immune/"
 os.makedirs(REPORTS_PATH, exist_ok=True)
 
 # --- 1. Classe CLONALG (Sistema Imune) ---
